@@ -28,3 +28,26 @@ async function getFriends() {
     document.getElementById("friendsList").value = "Error fetching data";
   }
 }
+
+async function addFriend() {
+  const newFriend = document.getElementById("newFriend").value;
+  console.log(newFriend);
+  if (!newFriend) {
+    document.getElementById("friendsList").value = "Name is required";
+    return;
+  }
+
+  const response = await fetch("/api/addFriend", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: newFriend }),
+  });
+
+  if (response.ok) {
+    getFriends();
+  } else {
+    document.getElementById("friendsList").value = response.error;
+  }
+}
